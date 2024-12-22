@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Purble Pairs - Memory Game</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 140vh;
+            background-color: #ADD8EA;
+            margin: 0;
+            flex-direction: column;
+        }
+
+        h1 {
+            font-size: 2em;
+            margin-bottom: 20px;
+        }
+
+        .game-board {
+            display: grid;
+            grid-template-columns: repeat(6, 100px); /* Adjusted for 6 columns */
+            grid-gap: 9px;
+        }
+
+        .card {
+            width: 100px;
+            height: 100px;
+            background-color: #3498db;
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2em; /* Default font size */
+            cursor: pointer;
+            border-radius: 8px;
+            position: relative;
+            overflow: hidden;
+            text-align: center; /* Center the text */
+            padding: 4px;
+            word-wrap: break-word; /* Wrap text if it's too long */
+        }
+
+        .card.flipped, .card.matched {
+            background-color: #ecf0f1;
+            color: #3498db;
+        }
+
+        .card span {
+            visibility: hidden; /* Hidden until flipped */
+            word-wrap: break-word;
+        }
+
+        button {
+            margin-top: 20px;
+            padding: 10px 20px;
+            font-size: 1em;
+            cursor: pointer;
+            background-color: #3498db;
+            color: white;
+            border: none;
+            border-radius: 5px;
+        }
+
+        button:hover {
+            background-color: #2980b9;
+        }
+
+        @media (max-width: 600px) {
+            .game-board {
+                grid-template-columns: repeat(4, 1fr);  /* Adjust for smaller screens */
+            }
+        }
+    </style>
+</head>
+<body>
+    <h1>Pairs9-BMemory Game</h1>
+    <div id="game-board" class="game-board">
+        <!-- Cards will be added dynamically here -->
+    </div>
+    <button onclick="restartGame()">Restart Game</button>
+
+    <script>
+        // Letters for the cards
+        const cardLetters = [
+            'MONIKA', 'MONIKA', 'SAING', 'SAING',
+           
+            'ZAZA', 'ZAZA', 'SEL', 'SEL', 
+            'LANG', 'LANG', 'SOKHA', 'SOKHA',
+            'RITH','RITH', 'REAK', 'REAK',
+            'TANA','TANA','TEY', 'TEY'  ,
+            'YUTH','YUTH',
+           
+        ];
+
+        // Shuffle cards function
+        function shuffle(array) {
+            for (let i = array.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [array[i], array[j]] = [array[j], array[i]];
+            }
+        }
+
+        // Create the game board and add cards
+        function createBoard() {
+            shuffle(cardLetters);
+            const gameBoard = document.getElementById('game-board');
+            gameBoard.innerHTML = '';
+            
+            cardLetters.forEach(letter => {
+                const card = document.createElement('div');
+                card.classList.add('card');
+                card.setAttribute('data-value', letter);
+                card.addEventListener('click', flipCard);
+
+                // Add the letter as a hidden value
+                const letterSpan = document.createElement('span');
+                letterSpan.textContent = letter;
+                letterSpan.style.visibility = 'hidden'; // Hidden until flipped
+                card.appendChild(letterSpan);
+                
+                gameBoard.appendChild(card);
+            });
+        }
+
+        // Track flipped cards
+        let flippedCards = [];
+        let matchedCards = 0;
+
+        function flipCard() {
+            if (flippedCards.length < 2 && !this.classList.contains('flipped') && !this.classList.contains('matched')) {
+                this.classList.add('flipped');
+                const letterSpan = this.querySelector('span');
+                letterSpan.style.visibility = 'visible'; // Show the letter
+                flippedCards.push(this);
+
+                if (flippedCards.length === 2) {
+                    checkForMatch();
+                }
+            }
+        }
+
+        function checkForMatch() {
+            const [card1, card2] = flippedCards;
+
+            if (card1.getAttribute('data-value') === card2.getAttribute('data-value')) {
+                card1.classList.add('matched');
+                card2.classList.add('matched');
+                matchedCards += 2;
+                flippedCards = [];
+                
+                if (matchedCards === cardLetters.length) {
+                    setTimeout(() => {
+                        alert('Jes jmr!;)');
+                        restartGame(); // Restart the game when the player wins
+                    }, 500);
+                }
+            } else {
+                setTimeout(() => {
+                    card1.classList.remove('flipped');
+                    card2.classList.remove('flipped');
+                    card1.querySelector('span').style.visibility = 'hidden';
+                    card2.querySelector('span').style.visibility = 'hidden';
+                    flippedCards = [];
+                }, 1000);
+            }
+        }
+
+        // Restart the game
+        function restartGame() {
+            matchedCards = 0;
+            flippedCards = [];
+            createBoard(); // Recreate the board and shuffle the cards
+        }
+        
+        // Initialize the game
+        createBoard();
+    </script>
+</body>
+</html>
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Blue</title>
+</head>
+<body>
+    <h1>Blue</h1>
+    <!-- Audio Player -->
+    </audio>
+    <audio controls loop>
+    <source src="/Audio /Yung Kai - Blue.mp3" type="audio/mpeg">
+</audio>
+
+</body>
+</html>
+
